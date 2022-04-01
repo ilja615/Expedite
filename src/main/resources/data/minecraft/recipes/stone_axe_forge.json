@@ -1,19 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "XXX",
-    " # ",
-    " # "
+    "XX",
+    "X#",
+    " #"
   ],
   "key": {
     "#": {
-      "item": "minecraft:stick"
+      "tag": "forge:rods/wooden"
     },
     "X": {
       "tag": "minecraft:stone_tool_materials"
     }
   },
   "result": {
-    "item": "minecraft:air"
+    "item": "minecraft:bedrock"
   }
 }

@@ -1,19 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "X",
-    "#",
-    "#"
+    "XXX",
+    " # ",
+    " # "
   ],
   "key": {
     "#": {
       "item": "minecraft:stick"
     },
     "X": {
-      "tag": "minecraft:planks"
+      "tag": "minecraft:stone_tool_materials"
     }
   },
   "result": {
-    "item": "minecraft:air"
+    "item": "minecraft:bedrock"
   }
 }

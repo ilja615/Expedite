@@ -10,10 +10,10 @@
       "item": "minecraft:stick"
     },
     "X": {
-      "tag": "minecraft:stone_tool_materials"
+      "tag": "minecraft:planks"
     }
   },
   "result": {
-    "item": "minecraft:air"
+    "item": "minecraft:bedrock"
   }
 }
