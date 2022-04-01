@@ -3,8 +3,9 @@ package ilja615.expedite;
 import ilja615.expedite.init.ModBlocks;
 import ilja615.expedite.init.ModItems;
 import ilja615.expedite.init.ModProperties;
-import ilja615.expedite.util.ExpediteRepositorySource;
-import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.minecraft.server.packs.repository.*;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -15,17 +16,17 @@ import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.forgespi.locating.IModFile;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryObject;
+import net.minecraftforge.resource.PathResourcePack;
 
-import java.io.File;
-import java.util.Objects;
-import java.util.function.Consumer;
+import java.io.IOException;
 
 import static ilja615.expedite.ExpediteMod.MOD_ID;
 
@@ -89,7 +90,28 @@ public class ExpediteMod
 
         @SubscribeEvent
         public static void addPackFinder(final AddPackFindersEvent event) {
-            event.addRepositorySource(new ExpediteRepositorySource(FMLPaths.MODSDIR.get().resolve("expedite")));
+            System.out.println("adding pack finder");
+            try
+            {
+                if (event.getPackType() == PackType.SERVER_DATA)
+                {
+                    IModFile file = ModList.get().getModFileById(MOD_ID).getFile();
+                    var resourcePath = file.findResource("expedite_vanilla_overrides");
+                    var pack = new PathResourcePack(file.getFileName() + ":" + resourcePath, resourcePath);
+                    var metadataSection = pack.getMetadataSection(PackMetadataSection.SERIALIZER);
+                    if (metadataSection != null)
+                    {
+                        event.addRepositorySource((packConsumer, packConstructor) ->
+                                packConsumer.accept(packConstructor.create(
+                                        "expedite_vanilla_overrides", new TextComponent("vanilla recipe overrides"), false,
+                                        () -> pack, metadataSection, Pack.Position.BOTTOM, PackSource.BUILT_IN, false)));
+                    }
+                }
+            }
+            catch(IOException ex)
+            {
+                throw new RuntimeException(ex);
+            }
         }
     }
 }
