@@ -1,0 +1,11 @@
+modLoader="javafml" #mandatory
+loaderVersion="[39,)" #mandatory
+license="ARR" #mandatory
+credits="Credit to the people" #optional
+[[mods]] #mandatory
+modId="expedite" #mandatory
+version="1.18.1-0.1" #mandatory
+displayName="Expedite" #mandatory
+description='''
+Set forth in a new world! this mod changes the progression to be refreshing. This mod also adds new things to explore on your adventures 
+'''
